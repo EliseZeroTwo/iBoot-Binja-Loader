@@ -26,7 +26,7 @@ Binary Ninja v1200
 
 ## License
 
-This plugin is released under the [ISC license](https://github.com/EliseZeroTwo/Switch-Binja-Loader/blob/master/LICENSE.txt)
+This plugin is released under the [ISC license](https://github.com/EliseZeroTwo/iBoot-Binja-Loader/blob/master/LICENSE)
 
 ## Metadata Version
 
