@@ -63,8 +63,16 @@ class iBootView(BinaryView):
                 self.set_name_from_func_xref('_load_kernelcache', loaded_kernelcache_addr)
 
         self.set_name_from_str_xref('_panic', '\n[iBoot Panic]: ')
+        self.set_name_from_str_xref('_platform_get_usb_serial_number_string', 'CPID:')
+        self.set_name_from_str_xref('_platform_get_usb_more_other_string', ' NONC:')
+        self.set_name_from_str_xref('_image4_get_partial', 'IMG4')
+
+        usb_vendor_id = self.set_name_from_pattern('_platform_get_usb_vendor_id', b'\x80\xb5\x80\x52')
+        usb_core_init = self.set_name_from_func_xref('usb_core_init', usb_vendor_id)
+        self.set_name_from_func_xref('usb_init_with_controller', usb_core_init)
+
         self.binary = b''
-    
+
     def init(self):
         self.arch        = Architecture['aarch64']
         self.platform    = Architecture['aarch64'].standalone_platform
