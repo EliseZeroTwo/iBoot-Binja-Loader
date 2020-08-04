@@ -1,50 +1,33 @@
-# Sample Plugin (v1.0 alpha)
-Author: **Vector 35 Inc**
-_This is a short description meant to fit on one line._
-## Description:
-This is a longer description meant for a sample plugin that demonstrates the metadata format for Binary Ninja plugins. Note that the [community-plugins repo]() contains a useful [utility](https://github.com/Vector35/community-plugins/blob/master/generate_plugininfo.py) to validate the plugin.json.
+# iBoot-Binja-Loader
+### Author: **EliseZeroTwo** & **matteyeux**
 
+Work In Progress Binary Ninja Loader for iBoot & SecureROM
+
+## Credits
+- [argp for iBoot64helper](https://github.com/argp/iBoot64helper)
 
 ## Installation Instructions
-
 ### Windows
 
-Install the following pip packages: ...
-
-Install the following libraries: ...
+Clone this repository into `%APPDATA%/Binary Ninja/plugins/`
 
 ### Darwin
 
-Install the following pip packages: ...
-
-Install the following brew packages: ...
+Clone this repository into `~/Library/Application Support/Binary Ninja/plugins/`
 
 ### Linux
 
-Install the following pip packages: ...
-
-Install the following apt packages: ...
+Clone this repository into `~/.binaryninja/plugins/`
 ## Minimum Version
 
-This plugin requires the following minimum version of Binary Ninja:
+Binary Ninja v1200
 
- * 1200
-"
-
-
-## Required Dependencies
-
-The following dependencies are required for this plugin:
-
- * pip - array, of, pip, dependencies
- * installers - https://bogus-domain/this-package.exe
- * other - The sample plugin requires [this random package](https://bogus-domain/this-package/) be installed.
- * apt - apt, packages
 
 
 ## License
 
-This plugin is released under a MIT license.
+This plugin is released under the [ISC license](https://github.com/EliseZeroTwo/Switch-Binja-Loader/blob/master/LICENSE.txt)
+
 ## Metadata Version
 
 2
