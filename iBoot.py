@@ -66,6 +66,11 @@ class iBootView(BinaryView):
         self.set_name_from_str_xref('_platform_get_usb_serial_number_string', 'CPID:')
         self.set_name_from_str_xref('_platform_get_usb_more_other_string', ' NONC:')
         self.set_name_from_str_xref('_image4_get_partial', 'IMG4')
+        self.set_name_from_str_xref('_UpdateDeviceTree', 'fuse-revision')
+        self.set_name_from_str_xref('_main_task', 'debug-uarts')
+        self.set_name_from_str_xref('_print_boot_banner', '::\tBUILD_TAG: %s\n')
+        self.set_name_from_pattern('_plaform_early_init', b'\x60\x02\x40\x39')
+        self.set_name_from_str_xref('_task_init', 'idle task')
 
         usb_vendor_id = self.set_name_from_pattern('_platform_get_usb_vendor_id', b'\x80\xb5\x80\x52')
         usb_core_init = self.set_name_from_func_xref('usb_core_init', usb_vendor_id)
