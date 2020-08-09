@@ -73,8 +73,8 @@ class iBootView(BinaryView):
         self.set_name_from_str_xref('_task_init', 'idle task')
 
         usb_vendor_id = self.set_name_from_pattern('_platform_get_usb_vendor_id', b'\x80\xb5\x80\x52')
-        usb_core_init = self.set_name_from_func_xref('usb_core_init', usb_vendor_id)
-        self.set_name_from_func_xref('usb_init_with_controller', usb_core_init)
+        usb_core_init = self.set_name_from_func_xref('_usb_core_init', usb_vendor_id)
+        self.set_name_from_func_xref('_usb_init_with_controller', usb_core_init)
 
         self.binary = b''
 
