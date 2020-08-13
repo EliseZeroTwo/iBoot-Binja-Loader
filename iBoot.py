@@ -71,6 +71,7 @@ class iBootView(BinaryView):
         self.set_name_from_str_xref('_print_boot_banner', '::\tBUILD_TAG: %s\n')
         self.set_name_from_pattern('_plaform_early_init', b'\x60\x02\x40\x39')
         self.set_name_from_str_xref('_task_init', 'idle task')
+        self.set_name_from_pattern('_aes_crypto_cmd', b'\x89\x2C\x00\x72')
 
         usb_vendor_id = self.set_name_from_pattern('_platform_get_usb_vendor_id', b'\x80\xb5\x80\x52')
         usb_core_init = self.set_name_from_func_xref('_usb_core_init', usb_vendor_id)
@@ -115,7 +116,7 @@ class iBootView(BinaryView):
                 if (func_off % 4) == 0:
                     self.add_function(self.base + func_off)
                     offset = self.binary.find(prologue, offset + 2)
-        
+
 
         AnalysisCompletionEvent(self, self.on_complete)
         self.add_entry_point(self.base)
