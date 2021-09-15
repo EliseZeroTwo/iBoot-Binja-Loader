@@ -74,16 +74,49 @@ class iBootView(BinaryView):
                     "_load_kernelcache", loaded_kernelcache_addr
                 )
 
-        self.set_name_from_str_xref("_panic", "\n[iBoot Panic]: ")
+        self.set_name_from_str_xref("_panic", "double panic in")
         self.set_name_from_str_xref("_platform_get_usb_serial_number_string", "CPID:")
         self.set_name_from_str_xref("_platform_get_usb_more_other_string", " NONC:")
         self.set_name_from_str_xref("_image4_get_partial", "IMG4")
         self.set_name_from_str_xref("_UpdateDeviceTree", "fuse-revision")
         self.set_name_from_str_xref("_main_task", "debug-uarts")
-        self.set_name_from_str_xref("_print_boot_banner", "::\tBUILD_TAG: %s\n")
-        self.set_name_from_pattern("_plaform_early_init", b"\x60\x02\x40\x39")
+        self.set_name_from_str_xref("_platform_init_display", "backlight-level")
+        self.set_name_from_str_xref('_do_printf', '<null>')
+        self.set_name_from_str_xref('_do_memboot', 'Combo image too large\n')
+        self.set_name_from_str_xref('_do_go', 'Memory image not valid')
         self.set_name_from_str_xref("_task_init", "idle task")
+        self.set_name_from_str_xref(
+            '_sys_setup_default_environment',
+            '/System/Library/Caches/com.apple.kernelcaches/kernelcache',
+        )
+        self.set_name_from_str_xref(
+            '_check_autoboot', 'aborting autoboot due to user intervention.\n'
+        )
+        self.set_name_from_str_xref(
+            '_do_setpict', 'picture too large, size:%zu\n'
+        )
+        self.set_name_from_str_xref(
+            '_arm_exception_abort', 'ARM %s abort at 0x%016llx:\n'
+        )
+        self.set_name_from_str_xref(
+            '_do_devicetree', 'Device Tree image not valid\n'
+        )
+        self.set_name_from_str_xref('_do_ramdisk', 'Ramdisk image not valid\n')
+        self.set_name_from_str_xref(
+            '_usb_serial_init', 'Apple USB Serial Interface'
+        )
+        self.set_name_from_str_xref(
+            '_nvme_bdev_create',
+            'Couldn\'t construct blockdev for namespace %d',
+        )
+        self.set_name_from_str_xref(
+            '_image4_dump_list',
+            'image %p: bdev %p type %c%c%c%c offset 0x%llx',
+        )
+
+        self.set_name_from_pattern("_plaform_early_init", b"\x60\x02\x40\x39")
         self.set_name_from_pattern("_aes_crypto_cmd", b"\x89\x2C\x00\x72")
+
 
         usb_vendor_id = self.set_name_from_pattern(
             "_platform_get_usb_vendor_id", b"\x80\xb5\x80\x52"
