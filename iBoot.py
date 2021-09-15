@@ -22,7 +22,12 @@ class iBootView(BinaryView):
 
     @classmethod
     def is_valid_for_data(cls, data):
-        if data.read(0x200, 5) == b"iBoot" or data.read(0x200, 9) == b"SecureROM":
+        if (
+            data.read(0x200, 5) == b'iBoot'
+            or data.read(0x200, 4) == (b'iBEC' or b'iBSS')
+            or data.read(0x200, 9) == b'SecureROM'
+            or data.read(0x200, 9) == b'AVPBooter'
+        ):
             return True
         return False
 
