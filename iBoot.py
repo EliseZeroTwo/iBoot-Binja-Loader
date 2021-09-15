@@ -5,7 +5,7 @@ from time import sleep
 class iBootView(BinaryView):
     long_name = "iBoot"
     name = "iBoot"
-    PROLOGUES = [b"\x7F\x23\x03\xD5", b"\xBD\xA9", b"\xBF\xA9"]
+    PROLOGUES = [b"\xBD\xA9", b"\xBF\xA9"]
 
     def log(self, msg, error=False):
         msg = f"[iBoot-Loader] {msg}"
@@ -108,6 +108,7 @@ class iBootView(BinaryView):
             if "ldr" in inst[0]:
                 self.reader.seek(int(inst[0].split(" ")[-1], 16))
                 self.base = self.reader.read64()
+                break
 
         if self.base == None:
             self.log("Failed to find entry point", error=True)
@@ -132,13 +133,20 @@ class iBootView(BinaryView):
 
         self.binary = self.raw.read(0, len(self.raw))
         bin_start = self.start
+        _next = 0
+
+        if self.find_next_text(0, "pacibsp"):
+            self.PROLOGUES.append(self.start, b"\x7F\x23\x03\xD5")
+
         for prologue in self.PROLOGUES:
             while True:
                 _next = self.find_next_data(
-                    bin_start, b"\x7f\x23\x03\xd5", FindFlag.FindCaseSensitive
+                    bin_start, prologue, FindFlag.FindCaseSensitive
                 )
                 if _next == bin_start:
                     break
+                elif _next is None:
+                    continue
                 else:
                     self.create_user_function(_next)
                     bin_start = _next
