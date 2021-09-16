@@ -1,6 +1,4 @@
 from binaryninja import *
-from time import sleep
-
 
 class iBootView(BinaryView):
     long_name = "iBoot"
@@ -41,20 +39,20 @@ class iBootView(BinaryView):
         return None
 
     def set_name_from_str_xref(self, name, string):
-        string_offset = self.binary.find(string.encode("ascii"), 0)
-        if string_offset != -1:
-            refs = list(self.get_code_refs(self.base + string_offset))
+        string_offset = [str_.start for str_ in self.strings if str_.value == string]
+        if len(string_offset) != 0:
+            refs = list(self.get_code_refs(string_offset[0]))
             if len(refs) != 0:
                 functions = list(self.get_functions_containing(refs[0].address))
                 if len(functions) != 0:
                     functions[0].name = name
-                    return self.base + string_offset
+                    return string_offset
         return None
 
     def set_name_from_pattern(self, name, pattern):
-        pattern_offset = self.binary.find(pattern, 0)
-        if pattern_offset != -1:
-            functions = self.get_functions_containing(self.base + pattern_offset)
+        pattern_offset = self.find_next_data(0, pattern)
+        if pattern_offset is not None:
+            functions = self.get_functions_containing(pattern_offset)
             if len(functions) != 0:
                 functions[0].name = name
                 return functions[0].lowest_address
@@ -124,8 +122,6 @@ class iBootView(BinaryView):
         usb_core_init = self.set_name_from_func_xref("_usb_core_init", usb_vendor_id)
         self.set_name_from_func_xref("_usb_init_with_controller", usb_core_init)
 
-        self.binary = b""
-
     def init(self):
         self.arch = Architecture["aarch64"]
         self.platform = Architecture["aarch64"].standalone_platform
@@ -164,7 +160,6 @@ class iBootView(BinaryView):
         self.add_entry_point(self.base)
         self.define_auto_symbol(Symbol(SymbolType.FunctionSymbol, self.base, "_start"))
 
-        self.binary = self.raw.read(0, len(self.raw))
         bin_start = self.start
         _next = 0
 
