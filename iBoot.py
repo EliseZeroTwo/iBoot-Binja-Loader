@@ -38,8 +38,12 @@ class iBootView(BinaryView):
                 return functions[0].lowest_address
         return None
 
-    def set_name_from_str_xref(self, name, string):
-        string_offset = [str_.start for str_ in self.strings if str_.value == string]
+    def set_name_from_str_xref(self, name, string, partial=0):
+        if partial:
+            string_offset = [str_.start for str_ in self.strings if string in str_.value]
+        else:
+            string_offset = [str_.start for str_ in self.strings if str_.value == string]
+
         if len(string_offset) != 0:
             refs = list(self.get_code_refs(string_offset[0]))
             if len(refs) != 0:
@@ -72,7 +76,7 @@ class iBootView(BinaryView):
                     "_load_kernelcache", loaded_kernelcache_addr
                 )
 
-        self.set_name_from_str_xref("_panic", "double panic in")
+        self.set_name_from_str_xref("_panic", "double panic in ")
         self.set_name_from_str_xref("_platform_get_usb_serial_number_string", "CPID:")
         self.set_name_from_str_xref("_platform_get_usb_more_other_string", " NONC:")
         self.set_name_from_str_xref("_image4_get_partial", "IMG4")
@@ -81,7 +85,7 @@ class iBootView(BinaryView):
         self.set_name_from_str_xref("_platform_init_display", "backlight-level")
         self.set_name_from_str_xref('_do_printf', '<null>')
         self.set_name_from_str_xref('_do_memboot', 'Combo image too large\n')
-        self.set_name_from_str_xref('_do_go', 'Memory image not valid')
+        self.set_name_from_str_xref('_do_go', 'Memory image not valid\n')
         self.set_name_from_str_xref("_task_init", "idle task")
         self.set_name_from_str_xref(
             '_sys_setup_default_environment',
@@ -94,7 +98,7 @@ class iBootView(BinaryView):
             '_do_setpict', 'picture too large, size:%zu\n'
         )
         self.set_name_from_str_xref(
-            '_arm_exception_abort', 'ARM %s abort at 0x%016llx:\n'
+            '_arm_exception_abort', 'ARM %s abort at 0x%016llx:', 1
         )
         self.set_name_from_str_xref(
             '_do_devicetree', 'Device Tree image not valid\n'
@@ -111,6 +115,8 @@ class iBootView(BinaryView):
             '_image4_dump_list',
             'image %p: bdev %p type %c%c%c%c offset 0x%llx',
         )
+        self.set_name_from_str_xref("_prepare_and_jump", "======== End of %s serial output. ========\n")
+        self.set_name_from_str_xref('_boot_upgrade_system', '/boot/kernelcache')
 
         self.set_name_from_pattern("_plaform_early_init", b"\x60\x02\x40\x39")
         self.set_name_from_pattern("_aes_crypto_cmd", b"\x89\x2C\x00\x72")
