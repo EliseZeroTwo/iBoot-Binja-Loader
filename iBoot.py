@@ -135,13 +135,11 @@ class iBootView(BinaryView):
 
         self.log(f"Loading {'SecureROM' if self.isSecureROM else 'iBoot'}")
 
-        addr = 0
         self.base = None
-        for inst in self.raw.disassembly_text(0x0, Architecture["aarch64"]):
-            # inst is a tuple, which looks like this : ('ldr     x1, 0x300', 4)
-            # it contains the instruction and its size
-            if "ldr" in inst[0]:
-                self.reader.seek(int(inst[0].split(" ")[-1], 16))
+        for addr in range(0, 0x200, 4):
+            inst = self.raw.get_disassembly(addr, Architecture['aarch64'])
+            if "ldr" in inst:
+                self.reader.seek(int(inst.split(" ")[-1], 16))
                 self.base = self.reader.read64()
                 break
 
