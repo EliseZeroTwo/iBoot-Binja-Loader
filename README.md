@@ -1,7 +1,7 @@
 # iBoot-Binja-Loader
 ### Author: **EliseZeroTwo** & **matteyeux**
 
-Work In Progress Binary Ninja Loader for iBoot & SecureROM
+Binary Ninja Loader for iBoot & SecureROM
 
 ## Credits
 - [argp for iBoot64helper](https://github.com/argp/iBoot64helper)
