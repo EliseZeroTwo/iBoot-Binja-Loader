@@ -150,15 +150,15 @@ class iBootView(BinaryView):
         self.log(f"Found base {hex(self.base)}")
         self.add_auto_segment(
             self.base,
-            len(self.parent_view),
+            self.parent_view.length,
             0,
-            len(self.parent_view),
+            self.parent_view.length,
             SegmentFlag.SegmentReadable | SegmentFlag.SegmentExecutable,
         )
         self.add_user_section(
             self.name,
             self.base,
-            len(self.raw),
+            self.raw.length,
             SectionSemantics.ReadOnlyCodeSectionSemantics,
         )
         self.add_entry_point(self.base)
